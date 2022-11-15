@@ -31,12 +31,13 @@ terraform {
   backend "s3" {}
 }
 
-provider "kubernetes" {
-  host                   = module.eks.cluster_endpoint
-  cluster_ca_certificate = base64decode(module.eks.cluster_certificate_authority_data)
-}
+# provider "kubernetes" {
+#   host                   = module.eks["${terraform.workspace}_k8s"].cluster_endpoint
+#   cluster_ca_certificate = base64decode(module.eks["${terraform.workspace}_k8s"].cluster_certificate_authority_data)
+# }
 
 provider "aws" {
   region = var.region
 }
+
 

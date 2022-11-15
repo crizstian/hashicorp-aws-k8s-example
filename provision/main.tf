@@ -3,9 +3,9 @@ data "aws_availability_zones" "available" {}
 module "vpc" {
   source   = "terraform-aws-modules/vpc/aws"
   version  = "3.14.2"
-  for_each = var.vpc_networks
+  for_each = local.k8s_vpcs
 
-  name = "${each.key}-vpc"
+  name = "${each.key}_vpc"
   azs  = data.aws_availability_zones.available.names
   tags = var.tags
 
@@ -23,13 +23,12 @@ module "vpc" {
 module "eks" {
   source   = "terraform-aws-modules/eks/aws"
   version  = "18.26.6"
-  for_each = var.k8s_cluster
+  for_each = var.kubernetes_clusters
 
-  cluster_name = "${each.key}-eks"
-  tags         = var.tags
-  vpc_id       = module.vpc[each.value.vpc].vpc_id
-  subnet_ids   = module.vpc[each.value.vpc].private_subnets
-
+  cluster_name                    = "${each.key}_eks"
+  tags                            = var.tags
+  vpc_id                          = module.vpc["${terraform.workspace}_vpc"].vpc_id
+  subnet_ids                      = module.vpc["${terraform.workspace}_vpc"].private_subnets
   cluster_version                 = each.value.cluster_version
   eks_managed_node_group_defaults = each.value.eks_managed_node_group_defaults
   eks_managed_node_groups         = each.value.eks_managed_node_groups

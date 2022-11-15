@@ -1,6 +1,7 @@
 resource "aws_security_group" "node_group_one" {
-  name_prefix = "node_group_one"
-  vpc_id      = module.vpc.vpc_id
+  for_each    = local.k8s_vpcs
+  name_prefix = "${each.key}_node_group_one"
+  vpc_id      = module.vpc[each.key].vpc_id
 
   ingress {
     from_port = 22
@@ -14,8 +15,9 @@ resource "aws_security_group" "node_group_one" {
 }
 
 resource "aws_security_group" "node_group_two" {
-  name_prefix = "node_group_two"
-  vpc_id      = module.vpc.vpc_id
+  for_each    = local.k8s_vpcs
+  name_prefix = "${each.key}_node_group_two"
+  vpc_id      = module.vpc[each.key].vpc_id
 
   ingress {
     from_port = 22
