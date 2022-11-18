@@ -20,5 +20,5 @@ output "region" {
 
 output "cluster_name" {
   description = "Kubernetes Cluster Name"
-  value       = "${terraform.workspace}_k8s"
+  value       = "${terraform.workspace}_k8s_eks"
 }
