@@ -1,7 +1,7 @@
 kubernetes_clusters = {
-  infrateam_k8s = {
+  development_k8s = {
     cluster_version = "1.22"
-    vpc             = "infrateam_vpc"
+    vpc             = "development_vpc"
 
     eks_managed_node_group_defaults = {
       ami_type                              = "AL2_x86_64"
