@@ -2,7 +2,7 @@ data "aws_availability_zones" "available" {}
 
 module "vpc" {
   source   = "terraform-aws-modules/vpc/aws"
-  version  = "3.14.2"
+  version  = "~> 3.0"
   for_each = local.k8s_vpcs
 
   name = "${each.key}_vpc"
@@ -22,7 +22,7 @@ module "vpc" {
 
 module "eks" {
   source   = "terraform-aws-modules/eks/aws"
-  version  = "18.26.6"
+  version  = "~> 18.0"
   for_each = var.kubernetes_clusters
 
   cluster_name                    = "${each.key}_eks"
